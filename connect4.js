@@ -1,5 +1,6 @@
 "use strict";
-
+///make dom Element of the board -Gloabl
+//make board array global
 /** Connect Four
  *
  * Player 1 and 2 alternate turns. On each turn, a piece is dropped down a
@@ -14,12 +15,26 @@ let currPlayer = 1; // active player: 1 or 2
 const board = []; // array of rows, each row is array of cells  (board[y][x])
 // (board[5][0] would be the bottom-left spot on the board)
 
+
+
+/*Double nested for loop makes takes width and height to make the matrix (BOARD)
+height will equal board length; widht with will be nested lenght
+add null to each "cell"
+/*loop through up to up height and create empty array;> loop up to widht and pus
+add null to empty array (row). Push each row to the global BOARD
 /** makeBoard: fill in global `board`:
  *    board = array of rows, each row is array of cells  (board[y][x])
  */
 
 function makeBoard() {
-  // TODO: set "board" to empty HEIGHT x WIDTH matrix array
+  for (let i = 0; i < HEIGHT; i++) {
+    let row = [];
+    for (let j = 0; j < WIDTH; j++) {
+      row.push(null);
+    }
+    board.push(row);
+  }
+  console.log("board", board);
 }
 
 /** makeHtmlBoard: make HTML table and row of column tops. */
