@@ -16,11 +16,11 @@
 }
 
 /* make pieces red/blue,  depending on player 1/2 piece */
-.piece.player1 {
+.piece.p1 {
   background-color: red;
 }
 
-.piece.player2 {
+.piece.p2 {
   background-color: blue;
 }
 

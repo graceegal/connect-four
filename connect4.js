@@ -12,9 +12,8 @@ const WIDTH = 7;
 const HEIGHT = 6;
 
 let currPlayer = 1; // active player: 1 or 2
-const board = []; // array of rows, each row is array of cells  (board[y][x])
+let board = []; // array of rows, each row is array of cells  (board[y][x])
 // (board[5][0] would be the bottom-left spot on the board)
-// TODO: maybe change back to let to allow for flexibility
 
 
 /*Double nested for loop makes takes width and height to make the matrix (BOARD)
@@ -93,12 +92,13 @@ function placeInTable(y, x) {
   const currentCell = document.getElementById(`c-${y}-${x}`);
 
   const gamePiece = document.createElement("div");
-  gamePiece.classList.add('piece', `player${currPlayer}`);
+  gamePiece.classList.add('piece', `p${currPlayer}`);
 
   currentCell.appendChild(gamePiece);
 }
 
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
+
 
 function checkForWin() {
 
@@ -108,11 +108,25 @@ function checkForWin() {
    * currPlayer
    */
   function _win(cells) {
+    // Check four cells to see if they're all legal & all color of current player
 
-    // TODO: Check four cells to see if they're all legal & all color of current
-    // player
-    //if cells.every contains current player
+    // TODO: BELOW CODE - does not work because order of conditions ?? **Need to ask**
+    // return cells.every(([y, x]) =>
+    //   board[y][x] === currPlayer &&
+    //   y >= 0 &&
+    //   y < HEIGHT &&
+    //   x >= 0 &&
+    //   x < WIDTH
+    // );
 
+    return cells.every(
+      ([y, x]) =>
+          y >= 0 &&
+          y < HEIGHT &&
+          x >= 0 &&
+          x < WIDTH &&
+          board[y][x] === currPlayer
+    );
   }
 
   // using HEIGHT and WIDTH, generate "check list" of coordinates
@@ -120,15 +134,15 @@ function checkForWin() {
   // ways to win: horizontal, vertical, diagonalDR, diagonalDL
   for (let y = 0; y < HEIGHT; y++) {
     for (let x = 0; x < WIDTH; x++) {
-      // TODO: assign values to the below variables for each of the ways to win
+      // assign values to the below variables for each of the ways to win
       // horizontal has been assigned for you
       // each should be an array of 4 cell coordinates:
       // [ [y, x], [y, x], [y, x], [y, x] ]
 
       let horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
       let vert = [[y, x], [y + 1, x], [y + 2, x], [y + 3, x]];
-      let diagDL;[[y, x], [y - 1, x + 1], [y - 2, x + 2], [y - 3, x + 3]];
-      let diagDR;[[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x + 3]];
+      let diagDL = [[y, x], [y + 1, x + 1], [y + 2, x + 2], [y + 3, x + 3]];
+      let diagDR = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]];
 
       // find winner (only checking each win-possibility as needed)
       if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
@@ -157,9 +171,8 @@ function handleClick(evt) {
     return;
   }
 
-  board[y][x] = currPlayer;
   // place piece in board and add to HTML table
-  // TODO: add line to update global `board` variable with new piece
+  board[y][x] = currPlayer;
   placeInTable(y, x);
 
   // check for win
@@ -168,10 +181,15 @@ function handleClick(evt) {
   }
 
   // check for tie: if top row is filled, board is filled
-  // TODO: check if all cells in board are filled; if so, call endGame
+  // check if all cells in board are filled; if so, call endGame
+  if (board[0].every(cell => cell !== null)) {
+    return endGame('Tie Game!');
+  }
 
   // switch players
-  // TODO: switch currPlayer 1 <-> 2
+  // switch currPlayer 1 <-> 2
+  currPlayer = (currPlayer === 1 ? 2 : 1);
+  console.log("currPlayer: ", currPlayer);
 }
 
 /** Start game. */
