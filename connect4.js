@@ -79,7 +79,6 @@ function makeHtmlBoard() {
 
 //go through board evaluating each array inside board at index x
 function findSpotForCol(x) {
-  // TODO: write the real version of this, rather than always returning 5
   for (let y = HEIGHT - 1; y >= 0; y--) {
     if (board[y][x] === null) {
       return y;
@@ -91,7 +90,12 @@ function findSpotForCol(x) {
 /** placeInTable: update DOM to place piece into HTML table of board */
 
 function placeInTable(y, x) {
-  // TODO: make a div and insert into correct table cell
+  const currentCell = document.getElementById(`c-${y}-${x}`);
+
+  const gamePiece = document.createElement("div");
+  gamePiece.classList.add('piece', `player${currPlayer}`);
+
+  currentCell.appendChild(gamePiece);
 }
 
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
